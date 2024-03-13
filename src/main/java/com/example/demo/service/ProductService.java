@@ -1,7 +1,8 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.ProductDTO;
+import com.example.demo.model.DTOConverter;
 import com.example.demo.model.product.Product;
-import com.example.demo.model.product.ProductDTO;
 import com.example.demo.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,7 +22,7 @@ public class ProductService {
         List<Product> products = productRepository.findAll();
         return products
                 .stream()
-                .map(ProductDTO::convert)
+                .map(DTOConverter::convert)
                 .collect(Collectors.toList());
     }
 
@@ -30,7 +31,7 @@ public class ProductService {
 
         return products
                 .stream()
-                .map(ProductDTO::convert)
+                .map(DTOConverter::convert)
                 .collect(Collectors.toList());
     }
 
@@ -38,14 +39,14 @@ public class ProductService {
         Product product = productRepository.findByProductIdentifier(productIdentifier);
 
         if (product != null) {
-            return ProductDTO.convert(product);
+            return DTOConverter.convert(product);
         }
         return null;
     }
 
     public ProductDTO save(ProductDTO productDTO) {
-        Product product = productRepository.save(Product.convert(productDTO));
-        return ProductDTO.convert(product);
+        Product product = productRepository.save(DTOConverter.convert(productDTO));
+        return DTOConverter.convert(product);
     }
 
     public void delete(Long productId) {
@@ -62,11 +63,11 @@ public class ProductService {
         if (dto.getPreco() != null) {
             product.setPreco(dto.getPreco());
         }
-        return ProductDTO.convert(productRepository.save(product));
+        return DTOConverter.convert(productRepository.save(product));
     }
 
     public Page<ProductDTO> getAllPage(Pageable page) {
         Page<Product> users = productRepository.findAll(page);
-        return users.map(ProductDTO::convert);
+        return users.map(DTOConverter::convert);
     }
 }

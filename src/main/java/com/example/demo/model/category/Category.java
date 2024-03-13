@@ -20,11 +20,4 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-
-    public static Category convert(CategoryDTO categoryDTO) {
-        Category category = new Category();
-        category.setId(categoryDTO.getId());
-        category.setNome(categoryDTO.getNome());
-        return category;
-    }
 }
