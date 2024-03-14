@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.ProductDTO;
+import com.example.demo.exception.ProductNotFoundException;
 import com.example.demo.model.DTOConverter;
 import com.example.demo.model.product.Product;
 import com.example.demo.repository.ProductRepository;
@@ -41,7 +42,7 @@ public class ProductService {
         if (product != null) {
             return DTOConverter.convert(product);
         }
-        return null;
+        throw new ProductNotFoundException();
     }
 
     public ProductDTO save(ProductDTO productDTO) {
@@ -51,7 +52,11 @@ public class ProductService {
 
     public void delete(Long productId) {
         Optional<Product> productOptional = productRepository.findById(productId);
-        productOptional.ifPresent(productRepository::delete);
+       if(productOptional.isPresent()){
+           productRepository.delete(productOptional.get());
+       } else {
+           throw new ProductNotFoundException();
+       }
     }
 
     public ProductDTO editProduct(long id, ProductDTO dto) {
