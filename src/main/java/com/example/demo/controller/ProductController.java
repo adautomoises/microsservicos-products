@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/produto")
+@RequestMapping("/product")
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
